@@ -1,0 +1,42 @@
+# Source files (only ship built JavaScript)
+src/
+*.ts
+!*.d.ts
+
+# Development files
+tsconfig.json
+biome.json
+.gitignore
+
+# Documentation files that shouldn't be in package
+PROMPT.md
+HOOKS.md
+.chw-config.yaml
+
+# Development dependencies and configs
+node_modules/
+.vscode/
+.idea/
+
+# Logs and temporary files
+logs/
+chw-logs/
+*.log
+tmp/
+temp/
+
+# Test files
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+test/
+tests/
+coverage/
+
+# Environment files
+.env*
+
+# OS generated files
+.DS_Store
+Thumbs.db

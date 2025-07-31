@@ -1,0 +1,76 @@
+# Claude Hooks Wrapper Configuration
+# This file configures CHW to provide simplified hook management for Claude Code
+
+version: "1.0.0"
+
+# Logging configuration
+logging:
+  enabled: true
+  level: info  # debug, info, warn, error
+  format: text  # text or json
+  maxFiles: 10
+  maxSize: 10MB
+
+# Module configuration
+# Each module represents a specific functionality that can be enabled/disabled
+modules:
+  # Basic logging module - logs all hook events
+  basic-logger:
+    enabled: true
+    settings:
+      logLevel: info
+      includeToolInput: false
+      includeToolOutput: false
+
+  # JSON command logger - saves individual JSON files for each hook event
+  json-command-logger:
+    enabled: true
+    settings:
+      maxFiles: 100
+      includeResponse: true
+      filenameFormat: "{timestamp}-{sessionId}-{hookEventName}-{toolName}.json"
+      directory: ".chw-commands"
+
+  # Example: File validator module (placeholder for future implementation)
+  # file-validator:
+  #   enabled: false
+  #   settings:
+  #     allowedExtensions: [".js", ".ts", ".json", ".md"]
+  #     blockedPaths: ["node_modules", ".git"]
+
+  # Example: Command validator module (placeholder for future implementation)
+  # command-validator:
+  #   enabled: false
+  #   settings:
+  #     blockedCommands: ["rm -rf", "sudo"]
+  #     requireConfirmation: ["git push", "npm publish"]
+
+# Hook configuration
+# Maps Claude Code hook events to CHW modules
+hooks:
+  # PreToolUse hooks - run before tool execution
+  PreToolUse:
+    - matcher: "*"  # Match all tools
+      modules: ["basic-logger", "json-command-logger"]
+    
+    # Example: Specific tool matching
+    # - matcher: "Write|Edit"
+    #   modules: ["file-validator"]
+    
+    # - matcher: "Bash"
+    #   modules: ["command-validator"]
+
+  # PostToolUse hooks - run after tool execution
+  PostToolUse:
+    - matcher: "*"
+      modules: ["basic-logger", "json-command-logger"]
+
+  # Other hook events (examples for future implementation)
+  # UserPromptSubmit:
+  #   - modules: ["basic-logger"]
+  
+  # Stop:
+  #   - modules: ["basic-logger"]
+  
+  # SessionStart:
+  #   - modules: ["basic-logger"]
